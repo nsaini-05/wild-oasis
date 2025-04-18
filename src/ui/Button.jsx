@@ -48,6 +48,8 @@ const variations = {
   `,
 };
 
-const Button = styled.button``;
+const Button = styled.button`
+  ${(props) => variations[props.type]}
+`;
 
 export default Button;
