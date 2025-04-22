@@ -17,7 +17,7 @@ export const deleteCabin = async (id) => {
   }
 };
 
-export const createCabin = async (newCabin) => {
+const generateNameAndPath = (newCabin) => {
   const imageName = `${Math.random()}-${newCabin.image.name}`.replaceAll(
     "/",
     ""
@@ -25,23 +25,57 @@ export const createCabin = async (newCabin) => {
 
   const imagePath = `${supabaseUrl}/storage/v1/object/public/cabin-images//${imageName}`;
 
+  return [imageName, imagePath];
+};
+
+export const uploadImage = async (imageName, image, id) => {
+  const { error: imageError } = await supabase.storage
+    .from("cabin-images")
+    .upload(imageName, image);
+  if (imageError) {
+    try {
+      await deleteCabin(id);
+    } catch (deleteError) {
+      console.error("Rollback failed: could not delete cabin", deleteError);
+    }
+    throw new Error(
+      "Cabin Image Could not be uploaded and the cabin was not created"
+    );
+  }
+};
+
+export const createCabin = async (newCabin) => {
+  const [imageName, imagePath] = generateNameAndPath(newCabin);
+
   const { data, error } = await supabase
     .from("cabins")
     .insert([{ ...newCabin, image: imagePath }])
-    .select();
+    .select()
+    .single();
 
   if (error) {
     throw new Error("Cabin could not be created");
   }
 
-  const { error: imageError } = await supabase.storage
-    .from("cabin-images")
-    .upload(imageName, newCabin.image);
-  if (imageError) {
-    deleteCabin(data.id);
-    throw new Error(
-      "Cabin Image Could not be uploaded and the cabin was not created"
-    );
+  try {
+    await uploadImage(imageName, newCabin.image, data.id);
+    return data;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
+export const editCabin = async (id, cabinToEdit) => {
+  console.log(cabinToEdit);
+  const { data, error } = await supabase
+    .from("cabins")
+    .update({ ...cabinToEdit })
+    .eq("id", id)
+    .select()
+    .single();
+
+  if (error) {
+    throw new Error("Cabin Cannot be Edited");
   }
 
   return data;
