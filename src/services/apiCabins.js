@@ -45,28 +45,36 @@ export const uploadImage = async (imageName, image, id) => {
 };
 
 export const createCabin = async (newCabin) => {
-  const [imageName, imagePath] = generateNameAndPath(newCabin);
+  if (typeof newCabin.image !== "string") {
+    const [imageName, imagePath] = generateNameAndPath(newCabin);
+    try {
+      await uploadImage(imageName, newCabin.image, data.id);
+      newCabin.image = imagePath;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
 
   const { data, error } = await supabase
     .from("cabins")
-    .insert([{ ...newCabin, image: imagePath }])
+    .insert([{ ...newCabin }])
     .select()
     .single();
 
   if (error) {
     throw new Error("Cabin could not be created");
   }
-
-  try {
-    await uploadImage(imageName, newCabin.image, data.id);
-    return data;
-  } catch (error) {
-    throw new Error(error.message);
-  }
+  return data;
 };
 
 export const editCabin = async (id, cabinToEdit) => {
-  console.log(cabinToEdit);
+  if (typeof cabinToEdit.image !== "string") {
+    cabinToEdit.image = cabinToEdit.image[0];
+    const [imageName, imagePath] = generateNameAndPath(cabinToEdit);
+    await uploadImage(imageName, cabinToEdit.image, id);
+    cabinToEdit.image = imagePath;
+  }
+
   const { data, error } = await supabase
     .from("cabins")
     .update({ ...cabinToEdit })
