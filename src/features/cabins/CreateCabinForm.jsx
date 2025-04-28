@@ -7,7 +7,7 @@ import Textarea from "../../ui/Textarea";
 import { useCreateCabin } from "./useCreateCabin";
 import StyledFormRow from "../../ui/FormRow";
 import { useEditCabin } from "./useEditCabin";
-function CreateCabinForm({ cabinToEdit = {} }) {
+function CreateCabinForm({ cabinToEdit = {}, onClose }) {
   const { id, ...cabinData } = cabinToEdit;
   const isEditSession = Boolean(id);
 
@@ -48,7 +48,10 @@ function CreateCabinForm({ cabinToEdit = {} }) {
   }
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit, onError)}>
+    <Form
+      onSubmit={handleSubmit(onSubmit, onError)}
+      type={onClose ? "modal" : "regular"}
+    >
       <StyledFormRow label="Cabin Name" error={errors?.name?.message}>
         <Input
           type="text"
@@ -123,6 +126,7 @@ function CreateCabinForm({ cabinToEdit = {} }) {
           $variation="secondary"
           type="reset"
           disabled={isOperationInProgress}
+          onClick={onClose}
         >
           Cancel
         </Button>
