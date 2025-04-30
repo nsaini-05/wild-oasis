@@ -1,6 +1,5 @@
 import Button from "../../ui/Button";
 import Modal from "../../ui/Modal";
-import { useState } from "react";
 import CreateCabinForm from "./CreateCabinForm";
 function AddCabin() {
   return (
@@ -18,12 +17,3 @@ function AddCabin() {
 }
 
 export default AddCabin;
-
-//  {/* <Button onClick={() => setIsOpenModal((open) => !open)}>
-//         Create New Cabin
-//       </Button>
-//       {isOpenModal && (
-//         <Modal onClose={handleClose}>
-//           <CreateCabinForm onClose={handleClose} />
-//         </Modal>
-//       )} */}

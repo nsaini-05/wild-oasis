@@ -41,6 +41,7 @@ const variations = {
   danger: css`
     color: var(--color-red-100);
     background-color: var(--color-red-700);
+    border: 1px solid var(--color-grey-300);
 
     &:hover {
       background-color: var(--color-red-800);
