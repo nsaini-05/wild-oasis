@@ -1,9 +1,9 @@
 import BookingRow from "./BookingRow";
 import Table from "../../ui/Table";
 import Menus from "../../ui/Menus";
-
-function BookingTable() {
-  const bookings = [];
+import Empty from "../../ui/Empty";
+function BookingTable({ bookings = [] }) {
+  if (!bookings.length) return <Empty resource={"Bookings"} />;
 
   return (
     <Menus>
@@ -18,7 +18,7 @@ function BookingTable() {
         </Table.Header>
 
         <Table.Body
-          data={bookings}
+          list={bookings}
           render={(booking) => (
             <BookingRow key={booking.id} booking={booking} />
           )}
