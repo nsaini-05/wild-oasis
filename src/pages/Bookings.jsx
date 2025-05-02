@@ -5,7 +5,7 @@ import Spinner from "../ui/Spinner";
 import { useBookings } from "../features/bookings/useBookings";
 import BookingTableOperations from "../features/bookings/BookingTableOperations";
 function Bookings() {
-  const { isLoading, bookings } = useBookings();
+  const { isLoading, bookings, count } = useBookings();
 
   if (isLoading) return <Spinner />;
   return (
@@ -14,7 +14,7 @@ function Bookings() {
         <Heading as="h1">All bookings</Heading>
         <BookingTableOperations />
       </Row>
-      <BookingTable bookings={bookings} />
+      <BookingTable bookings={bookings} count={count} />
     </>
   );
 }

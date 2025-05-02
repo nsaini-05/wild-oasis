@@ -2,7 +2,8 @@ import BookingRow from "./BookingRow";
 import Table from "../../ui/Table";
 import Menus from "../../ui/Menus";
 import Empty from "../../ui/Empty";
-function BookingTable({ bookings = [] }) {
+import Pagination from "../../ui/Pagination";
+function BookingTable({ bookings = [], count }) {
   if (!bookings.length) return <Empty resource={"Bookings"} />;
 
   return (
@@ -23,6 +24,9 @@ function BookingTable({ bookings = [] }) {
             <BookingRow key={booking.id} booking={booking} />
           )}
         />
+        <Table.Footer>
+          <Pagination count={count}></Pagination>
+        </Table.Footer>
       </Table>
     </Menus>
   );

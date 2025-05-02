@@ -3,6 +3,7 @@ import { getBookings } from "../../services/apiBookings";
 import { useSearchParams } from "react-router";
 export const useBookings = () => {
   const [searchParams] = useSearchParams();
+  const currentPage = Number(searchParams.get("page") || 1);
   const filterValue = searchParams.get("status") || "all";
 
   const filter =
@@ -17,16 +18,17 @@ export const useBookings = () => {
 
   const {
     isLoading,
-    data: bookings,
+    data: { data: bookings, count } = {},
     error,
   } = useQuery({
-    queryKey: ["bookings", filter, sortBy],
+    queryKey: ["bookings", filter, sortBy, currentPage],
     queryFn: () =>
       getBookings({
         filter,
         sortBy,
+        currentPage,
       }),
   });
 
-  return { isLoading, bookings, error };
+  return { isLoading, bookings, error, count };
 };
