@@ -26,7 +26,6 @@ export async function getBookings({ filter, sortBy, currentPage }) {
   }
 
   const { data, error, count } = await query;
-  console.log(count);
 
   if (error) {
     console.error(error);
@@ -37,11 +36,14 @@ export async function getBookings({ filter, sortBy, currentPage }) {
 }
 
 export async function getBooking(id) {
+  console.log(id);
   const { data, error } = await supabase
     .from("bookings")
     .select("*, cabins(*), guests(*)")
     .eq("id", id)
     .single();
+
+  console.log(data);
 
   if (error) {
     console.error(error);
