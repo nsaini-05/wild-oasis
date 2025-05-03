@@ -20,7 +20,6 @@ const HeadingGroup = styled.div`
 function BookingDetail() {
   const { booking, isLoading, error } = useBooking();
   const moveBack = useMoveBack();
-  console.log(booking);
   const { status, id: bookingId } = booking || {};
 
   const statusToTagName = {
