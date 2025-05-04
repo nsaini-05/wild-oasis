@@ -1,6 +1,7 @@
 import Heading from "../ui/Heading";
 import Row from "../ui/Row";
 import UserUpdateDataForm from "../features/authentication/UpdateUserDataForm";
+import UserUpdatePasswordForm from "../features/authentication/UpdatePasswordForm";
 
 function Account() {
   return (
@@ -12,9 +13,9 @@ function Account() {
         <UserUpdateDataForm></UserUpdateDataForm>
       </Row>
 
-      <Row>
+      <Row $type="vertical">
         <Heading as="h3">Update password</Heading>
-        <p>Update user password form</p>
+        <UserUpdatePasswordForm></UserUpdatePasswordForm>
       </Row>
     </>
   );
