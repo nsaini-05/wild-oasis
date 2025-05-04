@@ -1,14 +1,15 @@
 import Heading from "../ui/Heading";
 import Row from "../ui/Row";
+import UserUpdateDataForm from "../features/authentication/UpdateUserDataForm";
 
 function Account() {
   return (
     <>
       <Heading as="h1">Update your account</Heading>
 
-      <Row>
+      <Row $type="vertical">
         <Heading as="h3">Update user data</Heading>
-        <p>Update user data form</p>
+        <UserUpdateDataForm></UserUpdateDataForm>
       </Row>
 
       <Row>

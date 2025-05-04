@@ -12,7 +12,8 @@ const flexTypes = {
 
 const Row = styled.div`
   display: flex;
-  ${(props) => flexTypes[props.type]}
+  gap: 2rem;
+  ${(props) => flexTypes[props.$type]};
 `;
 
 Row.defaultProps = { type: "horizontal" };
