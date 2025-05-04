@@ -9,7 +9,9 @@ export const useLogin = () => {
     mutationFn: (userCredentials) => {
       return loginApi(userCredentials);
     },
-    onSuccess: (user) => {
+    onSuccess: ({ user }) => {
+      console.log(user);
+      queryClient.setQueryData("currentUser", user);
       toast.success("Use Loggedin Successfully");
       navigate("/dashboard");
     },

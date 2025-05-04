@@ -19,3 +19,28 @@ export const getCurrentUser = async () => {
   if (error) throw new Error(error.message);
   return data.user;
 };
+
+export const logout = async () => {
+  let { error } = await supabase.auth.signOut();
+
+  if (error) {
+    throw new Error("Unable to logout");
+  }
+};
+
+export const signUp = async ({ email, password, fullName, avatar = "" }) => {
+  let { data, error } = await supabase.auth.signUp({
+    email,
+    password,
+    options: {
+      data: {
+        fullName,
+        avatar,
+      },
+    },
+  });
+
+  if (error) throw new Error("Unable to Sign Up this time");
+
+  return data;
+};
